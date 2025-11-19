@@ -64,9 +64,9 @@ export default function ProductsPage() {
         </h1>
 
         <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {products.map((product) => (
+          {products.map((product,index) => (
             <li
-              key={product.id}
+              key={index}
               className="m-4 rounded-lg border border-zinc-200 p-4 shadow-sm dark:border-zinc-700"
             >
               <Image

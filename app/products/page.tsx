@@ -5,14 +5,22 @@ import { useEffect, useState } from "react";
 import ProductButton from "./button";
 import Image from "next/image";
 
-async function fetchProducts() {
+type Product = {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  thumbnail: string;
+};
+
+async function fetchProducts(): Promise<Product[]> {
   const response = await fetch("https://dummyjson.com/products");
   const data = await response.json();
   return data.products;
 }
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -61,29 +69,26 @@ export default function ProductsPage() {
               key={product.id}
               className="m-4 rounded-lg border border-zinc-200 p-4 shadow-sm dark:border-zinc-700"
             >
-              {/* <img
+              <Image
                 src={product.thumbnail}
                 alt={product.title}
+                width={300}
+                height={200}
                 className="mb-3 h-48 w-full rounded-md object-cover"
-              /> */}
-
-                <Image
-                  src={product.thumbnail}
-                  alt={product.title}   
-                    width={300}
-                    height={200}
-                  className="mb-3 h-48 w-full rounded-md object-cover"
-                />
+              />
 
               <h5 className="text-md font-semibold text-zinc-800 dark:text-zinc-200">
                 {product.title}
               </h5>
+
               <p className="mt-2 text-md font-bold text-zinc-900 dark:text-zinc-100">
                 ${product.price}
               </p>
+
               <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                 {product.description.substring(0, 100)}...
               </p>
+
               <ProductButton props={product} />
             </li>
           ))}
@@ -92,4 +97,3 @@ export default function ProductsPage() {
     </div>
   );
 }
-
